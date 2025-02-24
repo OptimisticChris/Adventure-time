@@ -1,0 +1,259 @@
+<script>
+function getValidInput(question, validOptions) {
+    let answer;
+    do {
+        answer = prompt(question + "\n\nfor guide type: guide").toLowerCase().trim();
+        if (answer === "guide") {
+            alert(getGuide());
+        }
+        if(answer === "quit"){
+          break;
+        }
+        if(answer=== "rest"){
+          if(player.stamina >=100){
+            alert("You are well rested")
+          } else {
+            alert("You took a short rest");
+            player.stamina+=2;
+            enforceLimits();
+          }
+        }
+        /*if (player.stamina <=50){
+          alert("You are tired and need to rest");
+        }
+        if (player.hp <=50){
+          alert("You dont feel so good, there might be some blood on ya");
+        }
+        if(player.hunger <=50){
+          alert("You are hungry, eat or drink something soon");
+        }*/
+    } while (!validOptions.includes(answer));
+    return answer;
+}
+
+function getGuide(){
+  return `Player Stats:
+    Name: ${player.name}
+    HP: ${player.hp}
+    Stamina: ${player.stamina}
+    Hunger: ${player.hunger}
+    Weapon: ${player.weapon}
+    Affinity: ${getAffinityStatus()}
+    
+    
+    type: "quit" to end game.`;
+}
+
+var player = {
+    name: prompt("Enter your name: ").trim(),
+    hp: 100,
+    stamina: 100,
+    affinity: 100,
+    hunger: 100,
+    weapon: null,
+    inventory: []
+};
+
+alert(`Welcome ${player.name} to 'Choices Adventure Game'! Make choices, seek out new paths!`); handleStart();
+
+function getAffinityStatus() {
+    return player.affinity >= 51 ? "Good" : "Evil";
+}
+//**player stats
+function getPlayerStats() {
+    return `Player Stats:
+    Name: ${player.name}
+    HP: ${player.hp}
+    Stamina: ${player.stamina}
+    Hunger: ${player.hunger}
+    Weapon: ${player.weapon}
+    Affinity: ${getAffinityStatus()}`;
+}
+//**death check 
+function checkDeath() {
+    if (player.hp <= 0) {
+        alert("You have died from your injuries. Game Over.");
+        resetGame();
+    } else if (player.stamina <= 0) {
+        alert("You have collapsed from exhaustion. Game Over.");
+        resetGame();
+    } else if (player.affinity <= 0) {
+        alert("A pack of vicious rabbits senses your evil nature and attacks you! Game Over.");
+        resetGame();
+    } else if (player.hunger <= 0) {
+        alert("You have staved to death! Game over!");
+        resetGame();
+    }
+}
+
+function checkRanDeath(){
+  const messages = [
+  "You trip over your own feet",
+  "A hand reaches through the door and squeezes you",
+  "The door swings open and hits you",
+  "You take a drink of water and start choking",
+  "A flock of rabbid squirrles decendes apon you.",
+  "You are beat to death by the door"
+]; 
+
+const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+
+  if (player.hp <= 0 ){
+    alert(randomMessage);
+    resetGame();
+  }
+}
+
+//**reset game on death
+function resetGame() {
+    alert("Restarting game...");
+    player.hp = 100;
+    player.stamina = 100;
+    player.affinity = 100;
+    player.hunger = 100;
+    player.inventory = [];
+    
+    handleStart(); // Restart the game at the beginning
+}
+
+function enforceLimits() {
+    player.hp = Math.min(player.hp, 100);
+    player.stamina = Math.min(player.stamina, 100);
+    player.affinity = Math.min(player.affinity, 100);
+    player.hunger = Math.min(player.hunger, 100);
+}
+
+function handleStart(){
+    let choice = getValidInput("A door appears infront of you, do you 'enter' or 'leave'",
+    ["enter", "leave"] 
+    ); 
+    if (choice === "enter"){
+      handleABC();
+    }else if(choice === "leave"){
+      /*randomMessage;*/
+      player.hp-=101;
+      enforceLimits();
+      checkRanDeath();
+    }
+}
+
+function handleABC(){
+  let choice = getValidInput("You enter Through the door, it transports you to a room with 3 new door ways, You can enter, 'left', 'right' or go 'straight' ",
+  ["left", "right", "straight"]
+  );
+  if(choice === "left"){
+    handleA();
+  } else if (choice === "right"){
+    handleB();
+  }else {
+    handleC();
+  }
+}
+
+function handleA(){
+  let choice = getValidInput("Turning left down a long walkway, you comne to a room, there is a chest in the corner, a book shelf, and a place to sit,\n'sit', 'chest', 'shelf', 'leave'",
+    ['sit','chest','shelf','leave']
+  );
+    if(choice === 'sit'){
+      alert("You sit in the chair for awhile, nothing interesting happens"),
+      handleA();
+    } else if (choice === "chest"){
+      alert("You open the chest and find a empty coin pouch, and some rusty spoons, not worth picking up"),
+      handleA();
+    } else if (choice === 'shelf'){
+      alert("You go to grab a book off the shelf and it falls down, making a very loud, echooing noise"),
+       handleA();
+    }else{
+      handleA1();
+    }
+  }
+  
+  function handleA1(){
+    let choice = getValidInput("You leave the room, walking down the cobbled path you walk for miles, do you 'continue' or 'turn back'? " ,
+      ["continue","turn back"]
+    );
+    if (choice === "turn back"){
+      alert("You start back towards the room you just came from some few miles back, however, you walk for even longer and never seem to reach the room you where in, you come to a new room");
+      player.stamina-=50;
+      player.hunger-=50;
+      handleLowA();
+    } else {
+      handleA2();
+    }
+  }
+  function handleLowA(){
+    let choice = getValidInput("Entering the new room, there is a bed, a table and chairs, it appears to be abandoned, at the end of the room there is a two exits. \nchoices: 'bed', 'chair', 'left, 'right  ", ["bed","chair", "left","right"] 
+    );
+    if(choice==="bed"){
+      handleCaptured();
+    } else if (choice === "chair"){
+      alert("You sit for a long while, you feel rested, however you are still hungry");
+      player.stamina+=50;
+      enforceLimits();
+    }else if(choice==="left"){
+      handleLowA1();
+    }else{
+      handleLowA2();
+    }
+  }
+  function handleLowA1(){
+    
+  }
+  function handleLowA2(){
+    
+  }
+  
+  function handleA2(){
+    
+  }
+  
+  
+function handleC(){
+  let choice = getValidInput("You travel down a long and winding path for quite some time, you reach a circular room with 2 paths, \nchoice:'left', 'right'", ["left","right"] 
+  );
+  if(choice==="right"){
+    
+    handleCOne();
+  } else {
+    handleCTwo();
+  }
+}
+function handleCOne(){
+  let choice = getValidInput("Entering through a broken wall, you see a way out of the dungeon, however there is another door to the left, what do you do?\nChoices: 'left', 'leave' ", 
+      ["left","leave"]
+    );
+    if(choice==="left"){
+      handleCThree();
+    } else {
+      checkRanDeath();
+    }
+}
+function handleCTwo(){
+  let choice=getValidInput("",
+  [,]
+  );
+}
+
+function handleB(){
+  let choice = getValidInput("You start down the right entry way, a few meters in, the floor gives way and you start to fall.\n what do you do?: 'brace', 'catch', 'relax' ", ["brace","catch","relax"] 
+  );
+  if(choice === "brace"){
+    alert("You attemp to brace for impact, it does very little and you land on your face.");
+    player.hp-=10;
+    checkDeath();
+    handleLowB();
+  } else if (choice === "catch"){
+    alert("You attemnpt to catch yourself but slip and land on your back");
+    player.hp-=5;
+    checkDeath();
+    handleLowB();
+  } else {
+    alert("You relax, and you float down without any worries");
+    handleLowB();
+  }
+}
+/*function handleLowB(){
+  
+}*/
+
+</script>
