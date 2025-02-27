@@ -1,0 +1,190 @@
+<script>
+  
+    var welcome = alert("Welcome to PIZZA DOMINATOR!\n\nPlease make your selections:");
+    var typeCrust = prompt("Enter tthe type of crust:"+"\n\n(T)hin\n(P)an");
+    var typeSize = prompt("Enter the size of the pizza"+"\n\n(S)mall\n(M)edium\n(L)arge\n(X)tra Large");
+    var typeStyle = prompt("Enter the style\n\n(E)xterminator\n(B)ehemouth\n(Ch)eese\n(C)olon Blow");
+    var message = "";
+    var price = 0;
+
+    if (typeCrust == "T"){
+        message += "\nCrust: Thin";
+        if (typeSize == "S"){
+            message +="\nSize: Small";
+            switch (typeStyle){
+                case "Ch":
+                    message += "\nStyle: Cheese";
+                    price += 10;
+                    break;
+                case "E":
+                    message += "\nStyle: Exterminator";
+                    price += 15;
+                    break;
+                case "B":
+                    message += "\nStyle: Behemouth";
+                    price += 15;
+                    break;
+                case "C":
+                    message += "\nStyle: Colon Blow";
+                    price += 16;
+                    break;
+            }
+        }
+        if (typeSize == "M"){
+            message +="\nSize: Medium";
+            switch (typeStyle){
+                case "Ch":
+                    message += "\nStyle: Cheese";
+                    price += 11;
+                    break;
+                case "E":
+                    message += "\nStyle: Exterminator";
+                    price += 16;
+                    break;
+                case "B":
+                    message += "\nStyle: Behemouth";
+                    price += 16;
+                    break;
+                case "C":
+                    message += "\nStyle: Colon Blow";
+                    price += 17;
+                    break;
+            }
+        }
+        if (typeSize == "L"){
+            message +="\nSize: Large";
+            switch (typeStyle){
+                case "Ch":
+                    message += "\nStyle: Cheese";
+                    price += 12;
+                    break;
+                case "E":
+                    message += "\nStyle: Exterminator";
+                    price += 17;
+                    break;
+                case "B":
+                    message += "\nStyle: Behemouth";
+                    price += 17;
+                    break;
+                case "C":
+                    message += "\nStyle: Colon Blow";
+                    price += 18;
+                    break;
+            }
+        }
+        if (typeSize == "X"){
+            message +="\nSize: X-large";
+            switch (typeStyle){
+                case "Ch":
+                    message += "\nStyle: Cheese";
+                    price += 13;
+                    break;
+                case "E":
+                    message += "\nStyle: Exterminator";
+                    price += 18;
+                    break;
+                case "B":
+                    message += "\nStyle: Behemouth";
+                    price += 18;
+                    break;
+                case "C":
+                    message += "\nStyle: Colon Blow";
+                    price += 19;
+                    break;
+            }
+        }
+    }
+    if (typeCrust == "P"){
+        message += "\nCrust: Pan";
+        if (typeSize == "S"){
+            message +="\nSize: Small";
+            switch (typeStyle){
+                case "Ch":
+                    message += "\nStyle: Cheese";
+                    price += 12;
+                    break;
+                case "E":
+                    message += "\nStyle: Exterminator";
+                    price += 17;
+                    break;
+                case "B":
+                    message += "\nStyle: Behemouth";
+                    price += 17;
+                    break;
+                case "C":
+                    message += "\nStyle: Colon Blow";
+                    price += 18;
+                    break;
+            }
+        }
+        if (typeSize == "M"){
+            message +="\nSize: Medium";
+            switch (typeStyle){
+                case "Ch":
+                    message += "\nStyle: Cheese";
+                    price += 13;
+                    break;
+                case "E":
+                    message += "\nStyle: Exterminator";
+                    price += 18;
+                    break;
+                case "B":
+                    message += "\nStyle: Behemouth";
+                    price += 18;
+                    break;
+                case "C":
+                    message += "\nStyle: Colon Blow";
+                    price += 19;
+                    break;
+            }
+        }
+        if (typeSize == "L"){
+            message +="\nSize: Large";
+            switch (typeStyle){
+                case "Ch":
+                    message += "\nStyle: Cheese";
+                    price += 14;
+                    break;
+                case "E":
+                    message += "\nStyle: Exterminator";
+                    price += 19;
+                    break;
+                case "B":
+                    message += "\nStyle: Behemouth";
+                    price += 19;
+                    break;
+                case "C":
+                    message += "\nStyle: Colon Blow";
+                    price += 20;
+                    break;
+            }
+        }
+        if (typeSize == "X"){
+            message +="\nSize: X-large";
+            switch (typeStyle){
+                case "Ch":
+                    message += "\nStyle: Cheese";
+                    price += 15;
+                    break;
+                case "E":
+                    message += "\nStyle: Exterminator";
+                    price += 20;
+                    break;
+                case "B":
+                    message += "\nStyle: Behemouth";
+                    price += 20;
+                    break;
+                case "C":
+                    message += "\nStyle: Colon Blow";
+                    price += 21;
+                    break;
+            }
+        }
+    }
+    var taxes = price * .05;
+    var totalpay = price + taxes;
+
+    alert("Order Summary." +"\n\n"+ message + "Price: $"+totalpay);
+
+
+</script>
