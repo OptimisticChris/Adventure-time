@@ -31,6 +31,7 @@ function getValidInput(question, validOptions) {
     return answer;
 }
 
+
 function getGuide(){
   return `Player Stats:
     Name: ${player.name}
@@ -92,7 +93,7 @@ function checkRanDeath(){
   "A hand reaches through the door and squeezes you",
   "The door swings open and hits you",
   "You take a drink of water and start choking",
-  "A flock of rabbid squirrles decendes apon you.",
+  "A flock of rabbid squirrles decends apon you.",
   "You are beat to death by the door"
 ]; 
 
@@ -196,9 +197,63 @@ function handleA(){
       handleLowA2();
     }
   }
-  function handleLowA1(){
-    
+  function handleCaptured(){
+    let choice = getValidInput("You fall asleep, only to awaken in a prison cell, there is a bucket, some rusty utensils, and a bed, what do you do?\nchoices: 'sleep', 'escape', 'call' for a gaurd ", ["sleep","escape","call"]
+    );
+    if(choice==="sleep"){
+      alert("You rest in the prison bed, its not very comfortable.");
+      player.stamina+=5;
+      enforceLimits();
+      handleCaptured();
+    } else if(choice==="escape"){
+      alert("You attempt to use the rusty utensils to Jimmy the door unlocked, you are successfull, but hear a noise down the way");
+      handleEscape();
+    } else {
   }
+  }
+  
+  function handleEscape(){
+    let choice = getValidInput("After breaking out of your cell, you hear footsteps starting towards you, 'run' or 'hide' ",["run","hide"]
+      );
+      if (choice === "hide"){
+        alert("you dash back into the open cell, however the lock is broken and the door wont stay shut, the gaurds find out and they kill you for attempting a escape.");
+        player.hp -=101;
+        enforceLimits();
+        checkDeath();
+      } else {
+        handleRun();
+      }
+  }
+  
+  function handleRun(){
+    let choice = getValidInput("You flee with! springting down a long and winding tunnel you approach a split, 'left' or 'right'",["left","right"]
+    );
+    if (choice==="left"){
+      alert("Congradulations you have made it out of the dungeon!");
+      answer = "quit";
+    } else {
+      player.stamina -= 25;
+      enforceLimits();
+      checkDeath();
+      handleLowA1();
+    }
+  }
+  
+  function handleLowA1(){
+    let choice = getValidInput("You travel for some time, comeing to a vast cavern, there is a small but tall tower in the middle of the open area, one light appears to be shinning through the top window, do you 'approach', 'leave' ",["approach","leave"]
+    );
+    if(choice==="leave"){
+      handleLowB();
+    } else {
+      handleWizard();
+    }
+  }
+  
+  function handleWizard(){
+    alert("As you move closer to the tower, the light in the top room explodes intoa massive fire ball, shaking the cavern, a Wizard appears at the door, grabs your hand, exclaims 'DONT TELL ANYONE YOU SAW THAT!' and ejects you from the dungeon.");
+    answer ="quit";
+  }
+  
   function handleLowA2(){
     
   }
@@ -252,8 +307,8 @@ function handleB(){
     handleLowB();
   }
 }
-/*function handleLowB(){
+function handleLowB(){
   
-}*/
+}
 
 </script>
