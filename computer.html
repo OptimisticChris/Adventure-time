@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Computer Parts Checklist</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            margin: 10px 0;
+        }
+        label {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Computer Parts Checklist</h1>
+    <p>Keep track of which parts you've bought and which ones you still need to buy.</p>
+    <ul id="partsList"></ul>
+
+    <script>
+        const parts = [
+            "Gamemax M60 Black Steel Micro ATX Tower USB3.0 Computer Case w/ Dual Mesh Side Panel",
+            "MSI PRO PRO B550M-VC WIFI AM4 AMD B550 SATA 6GB/s MATX AMD Motherboard",
+            "AMD Radeon RX 6700 XT 12GB Reference GPU w/Box | 1yr Warranty",
+            "AMD Ryzen 5 5600x with Wraith Stealth Cooler 100-1000000065BOX",
+            "Crucial P3 1TB PCIe Gen4 3D NAND NVME M.2 SSD up to 5000MB/S",
+            "EVGA SuperNOVA 850 B3 850W Power Supply PSU w/ All Cables | 1yr Warrenty"
+        ];
+
+        const partsList = document.getElementById("partsList");
+
+        // Load checklist status from localStorage
+        const savedChecklist = JSON.parse(localStorage.getItem("checklist")) || {};
+
+        // Render the list
+        parts.forEach((part, index) => {
+            const listItem = document.createElement("li");
+            const checkbox = document.createElement("input");
+            const label = document.createElement("label");
+
+            checkbox.type = "checkbox";
+            checkbox.id = `part-${index}`;
+            checkbox.checked = savedChecklist[part] || false;
+
+            // Save changes to localStorage on checkbox toggle
+            checkbox.addEventListener("change", () => {
+                savedChecklist[part] = checkbox.checked;
+                localStorage.setItem("checklist", JSON.stringify(savedChecklist));
+            });
+
+            label.htmlFor = `part-${index}`;
+            label.textContent = part;
+
+            listItem.appendChild(checkbox);
+            listItem.appendChild(label);
+            partsList.appendChild(listItem);
+        });
+    </script>
+</body>
+</html>
