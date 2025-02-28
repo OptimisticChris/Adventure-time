@@ -1,10 +1,16 @@
-<script> 
+<script>
 function getValidInput(question, validOptions) {
     let answer;
     do {
         answer = prompt(question + "\n\nfor guide type: guide").toLowerCase().trim();
         if (answer === "guide") {
             alert(getGuide());
+        } else if (answer === "inventory"){
+          if (player.inventory === []){
+            alert("You have no items yet")
+          } else {
+            alert(player.inventory);
+          }
         }
         if(answer === "quit"){
           break;
@@ -31,27 +37,13 @@ function getValidInput(question, validOptions) {
     return answer;
 }
 
-
-function getGuide(){
-  return `Player Stats:
-    Name: ${player.name}
-    HP: ${player.hp}
-    Stamina: ${player.stamina}
-    Hunger: ${player.hunger}
-    Weapon: ${player.weapon}
-    Affinity: ${getAffinityStatus()}
-    
-    
-    type: "quit" to end game.`;
-}
-
 var player = {
     name: prompt("Enter your name: ").trim(),
     hp: 100,
     stamina: 100,
     affinity: 100,
     hunger: 100,
-    weapon: null,
+    weapon: [],
     inventory: []
 };
 
@@ -61,15 +53,50 @@ function getAffinityStatus() {
     return player.affinity >= 51 ? "Good" : "Evil";
 }
 //**player stats
-function getPlayerStats() {
+
+function equipWeapon(weaponName, damage) {
+    player.weapon = { name: weaponName, damage: damage };
+    alert(`You have equipped a ${weaponName}! It deals ${damage} damage.`);
+}
+
+equipWeapon("Iron Sword", 15);
+
+function addToInventory(itemName, description) {
+    player.inventory.push({ name: itemName, description: description });
+    alert(`You have obtained: ${itemName}\n${description}`);
+}
+
+addToInventory("Torch", "A dimly lit torch that can help you navigate dark areas.");
+
+function getGuide() {
+    let inventoryItems = player.inventory.map(item => item.name).join(", ") || "None";
+    let weaponStatus = player.weapon ? `${player.weapon.name} (Damage: ${player.weapon.damage})` : "None";
+    
     return `Player Stats:
     Name: ${player.name}
     HP: ${player.hp}
     Stamina: ${player.stamina}
     Hunger: ${player.hunger}
     Weapon: ${player.weapon}
-    Affinity: ${getAffinityStatus()}`;
+    Affinity: ${getAffinityStatus()}
+    Inventory: ${player.inventory}
+    
+    type: "inventory" to see inventory.
+    type: "quit" to end game.`;
+
+   
 }
+
+function addToInventory(itemName, description) {
+    if (!player.inventory.some(item => item.name === itemName)) {
+        player.inventory.push({ name: itemName, description: description });
+        alert(`You have obtained: ${itemName}\n${description}`);
+    } else {
+        alert(`You already have a ${itemName}.`);
+    }
+}
+
+
 //**death check 
 function checkDeath() {
     if (player.hp <= 0) {
@@ -94,7 +121,11 @@ function checkRanDeath(){
   "The door swings open and hits you",
   "You take a drink of water and start choking",
   "A flock of rabbid squirrles decends apon you.",
-  "You are beat to death by the door"
+  "You are beat to death by the door",
+  "You die from an allergic reaction.",
+  "Trogdor the buninator swoops down, burning the village and you. TRRROOGGGDDOOORR THE BURNINATOR!!!",
+  "A WILD SALAD FINGERS APEARS WITH RUSTY SPOONS!",
+  "Wow"
 ]; 
 
 const randomMessage = messages[Math.floor(Math.random() * messages.length)];
@@ -255,7 +286,7 @@ function handleA(){
   }
   
   function handleLowA2(){
-    
+    let choice = getValidInput("As you delv deeper into this dunegon you feel the air begin to get heavey, you come across an old adventurer, bones and some gear remain, ")
   }
   
   function handleA2(){
